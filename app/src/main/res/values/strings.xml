@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">Esnaschas</string>
+    <string name="app_name">Esnas-chas</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
-
+    <string name="app_surname">Millones de mensajes destruidos!!</string>
+    <string name="signup">Sign Up</string>
 </resources>
