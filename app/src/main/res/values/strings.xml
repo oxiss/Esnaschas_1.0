@@ -4,4 +4,10 @@
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="app_surname">Millones de mensajes exprimidos!!</string>
     <string name="signup">Sign Up</string>
+    <string name="empty_field_message">The field %1$s is empty.</string>
+    <string name="error_tittle_message">Error on Sign Up.</string>
+    <string name="field_User">user</string>
+    <string name="field_Email">email</string>
+    <string name="field_Pass">password</string>
+
 </resources>
