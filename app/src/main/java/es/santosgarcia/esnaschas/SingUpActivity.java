@@ -1,12 +1,15 @@
 package es.santosgarcia.esnaschas;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -19,7 +22,6 @@ public class SingUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sing_up);
 
-
         Button send = (Button)findViewById(R.id.ButtonConfirm);
         send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -30,10 +32,13 @@ public class SingUpActivity extends AppCompatActivity {
     }
 
  protected void onSend(){
+     // for hide keyboard when push send button
+     InputMethodManager inputManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+     inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
 
-         EditText Usernamefield = (EditText)findViewById(R.id.Usernamefield);
-         EditText Emailfield = (EditText)findViewById(R.id.Emailfield);
-         EditText Passwordfield = (EditText)findViewById(R.id.Passwordfield);
+        EditText Usernamefield = (EditText)findViewById(R.id.Usernamefield);
+        EditText Emailfield = (EditText)findViewById(R.id.Emailfield);
+        EditText Passwordfield = (EditText)findViewById(R.id.Passwordfield);
 
         String errortittle = getString(R.string.error_tittle_message);
         AlertDialog.Builder builder = new AlertDialog.Builder(SingUpActivity.this);
@@ -100,7 +105,14 @@ public class SingUpActivity extends AppCompatActivity {
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                 } else {
-
+                    if (e.getCode() ==  203){
+                        Toast toast1 = Toast.makeText(getApplicationContext(),"El usuario o email ya existen", Toast.LENGTH_SHORT);
+                        toast1.show();
+                    }
+                    else if (e.getCode()==125){
+                        Toast toast1 = Toast.makeText(getApplicationContext(),"El email no es correcto", Toast.LENGTH_SHORT);
+                        toast1.show();
+                    }
                 }
             }
         });
