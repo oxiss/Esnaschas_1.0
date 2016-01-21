@@ -42,7 +42,11 @@ public class LoginActivity extends AppCompatActivity {
                 }
         );
 
+
     }
+
+
+
     public void LoginButton(){
         InputMethodManager inputManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
@@ -90,6 +94,7 @@ public class LoginActivity extends AppCompatActivity {
             Login(tUsr.trim(), tPass.trim());
         }
     }
+
 
     public void Login(String user, String pass){
         ParseUser.logInInBackground(user, pass, new LogInCallback() {
