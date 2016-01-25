@@ -1,47 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="es.santosgarcia.esnaschas.SingUpActivity">
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/imageView2"
-        android:src="@drawable/background"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:scaleType="fitStart"
-        android:background="@drawable/background_fill" />
+    tools:context="es.santosgarcia.esnaschas.SingUpActivity"
+    android:background="@drawable/fondo_app">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="30dp"
         android:padding="10dp"
         android:background="#ffffff"
-        android:id="@+id/linearLayout2">
+        android:id="@+id/linearLayout2"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="100dp">
 
         <EditText
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/Usernamefield"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
             android:hint="Username"/>
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/Emailfield"
-            android:layout_below="@+id/Usernamefield"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
             android:hint="email" />
 
         <EditText
@@ -50,9 +37,6 @@
             android:inputType="textPassword"
             android:ems="10"
             android:id="@+id/Passwordfield"
-            android:layout_below="@+id/Emailfield"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
             android:hint="Password" />
     </LinearLayout>
 
@@ -60,20 +44,13 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/linearLayout2"
-        android:layout_alignLeft="@+id/linearLayout2"
-        android:layout_alignStart="@+id/linearLayout2"
-        android:layout_alignRight="@+id/linearLayout2"
-        android:layout_alignEnd="@+id/linearLayout2">
+        android:layout_margin="30dp">
 
         <Button
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="Send"
             android:id="@+id/ButtonConfirm"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="false"
             android:layout_weight="1"/>
 
         <Button
@@ -81,11 +58,8 @@
             android:layout_height="wrap_content"
             android:text="Cancel"
             android:id="@+id/ButtonCancel"
-            android:layout_below="@+id/ButtonConfirm"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="false"
             android:layout_weight="1"/>
     </LinearLayout>
 
 
-</RelativeLayout>
+</LinearLayout>
