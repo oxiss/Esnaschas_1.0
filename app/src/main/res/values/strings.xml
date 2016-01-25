@@ -11,7 +11,7 @@
     <string name="field_Pass">password</string>
     <string name="loging_message">You are In.</string>
     <string name="camera">Camera</string>
-    <string name="title_activity_splash">Splash</string>
+    <string name="title_activity_splash">LemonChat</string>
 
 
 </resources>
