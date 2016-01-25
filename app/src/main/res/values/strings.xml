@@ -10,5 +10,7 @@
     <string name="field_Email">email</string>
     <string name="field_Pass">password</string>
     <string name="loging_message">You are In.</string>
+    <string name="camera">Camera</string>
+
 
 </resources>

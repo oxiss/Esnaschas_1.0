@@ -29,6 +29,13 @@ public class SingUpActivity extends AppCompatActivity {
                 onSend();
             }
         });
+        Button cancel = (Button)findViewById(R.id.ButtonCancel);
+        cancel.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                onCancel();
+            }
+        });
     }
 
  protected void onSend(){
@@ -90,6 +97,12 @@ public class SingUpActivity extends AppCompatActivity {
         else{
             SignUp(tUsr.trim(), tEmail.trim(), tPass.trim());
         }
+    }
+
+    public void onCancel(){
+        Intent intent = new Intent(SingUpActivity.this,LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 
     private void SignUp(String name, String email, String pass) {
