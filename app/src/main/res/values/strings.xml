@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">LemonChat</string>
-    <string name="action_logout">LogOut</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="app_surname">Millones de mensajes exprimidos!!</string>
     <string name="signup">Sign Up</string>
@@ -13,6 +12,13 @@
     <string name="camera">Camera</string>
     <string name="title_activity_splash">LemonChat</string>
     <string name="empty_inbox_label">No new messages</string>
+    <string name="empty_friends_label">Add friends to start</string>
+    <string name="Complete">Complete</string>
+    <string name="Error">Error</string>
+    <string name="Login">Login</string>
+    <string name="edit_friends">Edit Friends</string>
+    <string name="action_logout">Log Out</string>
+    <string name="title_activity_edit_friends">EditFriendsActivity</string>
 
 
 </resources>

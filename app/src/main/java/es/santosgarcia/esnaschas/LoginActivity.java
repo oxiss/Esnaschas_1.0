@@ -16,14 +16,19 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dd.CircularProgressButton;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
 
+
 public class LoginActivity extends AppCompatActivity {
 
+
+
     MenuItem miActionProgressItem;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +36,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         TextView text = (TextView)findViewById(R.id.SignUpText);
+        final CircularProgressButton circularButton1 = (CircularProgressButton) findViewById(R.id.btnWithText);
+
         text.setOnClickListener(
                 new TextView.OnClickListener() {
                     public void onClick(View v) {
@@ -39,8 +46,8 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 }
         );
-        Button butonlogin = (Button)findViewById(R.id.loginButton);
-        butonlogin.setOnClickListener(
+
+        circularButton1.setOnClickListener(
                 new Button.OnClickListener() {
                     public void onClick(View v) {
                         LoginButton();
@@ -63,8 +70,13 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void LoginButton(){
+        final CircularProgressButton circularButton1 = (CircularProgressButton) findViewById(R.id.btnWithText);
+        circularButton1.setProgress(50);
+
+        circularButton1.setIndeterminateProgressMode(true);
+
         InputMethodManager inputManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
+        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
         EditText Usernamefield = (EditText)findViewById(R.id.Usernamefield);
         EditText Passwordfield = (EditText)findViewById(R.id.Passwordfield);
@@ -85,18 +97,22 @@ public class LoginActivity extends AppCompatActivity {
 
         if (tPass.isEmpty()){
             message = String.format(getString(R.string.empty_field_message),sPassField);
+
         }
         else
             tPass = String.valueOf(Passwordfield.getText());
 
         if (tUsr.isEmpty()){
             message = String.format(getString(R.string.empty_field_message),sUserField);
+
         }
         else
             tUsr = String.valueOf(Usernamefield.getText());
 
 
         if (tUsr.trim().isEmpty()|tPass.trim().isEmpty()) {
+            circularButton1.setProgress(-1);
+            esperar(circularButton1);
             builder.setMessage(message);
             builder.setTitle(errortittle);
             builder.setPositiveButton(android.R.string.ok, null);
@@ -104,6 +120,8 @@ public class LoginActivity extends AppCompatActivity {
 
             AlertDialog dialog = builder.create();
             dialog.show();
+
+
         }
         else{
             showProgressBar();
@@ -111,31 +129,52 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-
     public void Login(String user, String pass){
+        final CircularProgressButton circularButton1 = (CircularProgressButton) findViewById(R.id.btnWithText);
         ParseUser.logInInBackground(user, pass, new LogInCallback() {
             public void done(ParseUser user, ParseException e) {
 
+
+
                 if (user != null) {
+                    circularButton1.setProgress(100);
                     Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                 } else {
+                    circularButton1.setProgress(-1);
                     Toast toast1 = Toast.makeText(getApplicationContext(),"Login Fail", Toast.LENGTH_SHORT);
                     toast1.show();
+                    esperar(circularButton1);
+
                 }
                 hideProgressBar();
             }
         });
     }
 
-
     public void showProgressBar(){
         miActionProgressItem.setVisible(true);
     }
     public void hideProgressBar(){
         miActionProgressItem.setVisible(false);
+
     }
 
+    public void esperar(CircularProgressButton c){
+
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                        sleep(1000);
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        c.setProgress(0);
+    }
 
 }
