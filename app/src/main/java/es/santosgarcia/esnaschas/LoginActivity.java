@@ -24,12 +24,7 @@ import com.parse.ParseUser;
 
 
 public class LoginActivity extends AppCompatActivity {
-
-
-
     MenuItem miActionProgressItem;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -120,7 +115,6 @@ public class LoginActivity extends AppCompatActivity {
 
             AlertDialog dialog = builder.create();
             dialog.show();
-
 
         }
         else{
