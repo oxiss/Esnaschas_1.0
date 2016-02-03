@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/oxiss/Esnaschas_1.0.png?label=ready&title=Ready)](https://waffle.io/oxiss/Esnaschas_1.0)
 # LemonChat
 Proyecto desarrollado por:
 
