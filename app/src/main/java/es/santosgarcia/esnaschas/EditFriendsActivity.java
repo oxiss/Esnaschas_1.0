@@ -35,7 +35,6 @@ public class EditFriendsActivity extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ProgressBar mibarra = (ProgressBar) findViewById(R.id.progressBar2);
-        //mibarra.setVisibility(View.VISIBLE);
         setContentView(R.layout.activity_edit_friends);
         getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
     }

@@ -13,9 +13,11 @@ import android.widget.ProgressBar;
  */
 public class InboxFragment extends ListFragment{
 
+    ProgressBar spinner;
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.inboxfragment, container, false);
-        ProgressBar spinner = (ProgressBar)rootView.findViewById(R.id.progressBar);
+         spinner = (ProgressBar)rootView.findViewById(R.id.progressBar);
         spinner.setVisibility(View.GONE);
 
         return rootView;
