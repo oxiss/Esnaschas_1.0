@@ -22,14 +22,14 @@ public class SingUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sing_up);
 
-        Button send = (Button)findViewById(R.id.ButtonConfirm);
+        Button send = (Button)findViewById(R.id.Btnsend);
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onSend();
             }
         });
-        Button cancel = (Button)findViewById(R.id.ButtonCancel);
+        Button cancel = (Button)findViewById(R.id.Btncancel);
         cancel.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {

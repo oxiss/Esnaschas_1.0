@@ -99,7 +99,8 @@
         app:cpb_textError="@string/Error"
         app:cpb_textIdle="@string/Login"
         app:cpb_cornerRadius="48dp"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        app:cpb_selectorIdle="@drawable/idle_state_selector"/>
 
 
     <TextView
