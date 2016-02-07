@@ -8,14 +8,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.parse.ParseObject;
+
+import java.util.List;
+
 /**
  * Created by Santos on 26/01/2016.
  */
 public class InboxFragment extends ListFragment{
 
+    ProgressBar spinner;
+    protected List<ParseObject> mMessages;
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.inboxfragment, container, false);
-        ProgressBar spinner = (ProgressBar)rootView.findViewById(R.id.progressBar);
+        spinner = (ProgressBar)rootView.findViewById(R.id.progressBar);
         spinner.setVisibility(View.GONE);
 
         return rootView;
@@ -23,3 +30,6 @@ public class InboxFragment extends ListFragment{
 
 
 }
+
+//MessageAdapter adapter = new MessageAdapter(getListView().getContext().mMessages);
+//setListAdapter(adapter);

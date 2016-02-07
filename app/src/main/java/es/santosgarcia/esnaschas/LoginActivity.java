@@ -2,6 +2,7 @@ package es.santosgarcia.esnaschas;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
@@ -31,6 +32,9 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         TextView text = (TextView)findViewById(R.id.SignUpText);
+        TextView text2 = (TextView)findViewById(R.id.prueba);
+        Typeface mifuente = Typeface.createFromAsset(getAssets(),"fonts/Amatic-Bold.ttf");
+        text2.setTypeface(mifuente);
         final CircularProgressButton circularButton1 = (CircularProgressButton) findViewById(R.id.btnWithText);
 
         text.setOnClickListener(
