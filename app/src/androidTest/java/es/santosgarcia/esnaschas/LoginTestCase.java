@@ -20,8 +20,8 @@ public class LoginTestCase extends ActivityInstrumentationTestCase2<LoginActivit
     private Button loginBtn;
 
     // Inicializacion de variables para el Test
-    private static final String USERNAME = "Miguel";
-    private static final String PASSWORD = "1";
+    private static final String USERNAME = "111";
+    private static final String PASSWORD = "111";
 
     public LoginTestCase() {
         super(LoginActivity.class);
@@ -36,17 +36,12 @@ public class LoginTestCase extends ActivityInstrumentationTestCase2<LoginActivit
         loginBtn = (Button) actividad.findViewById(R.id.btnWithText);
     }
 
-    // Comprobacion de campos no vacios.
-    public void testPreconditions() {
-        assertNotNull(usuario);
-        assertNotNull(password);
-    }
+
 
     //  Este codigo se ejecuta despues de cada test
     protected void tearDown() throws Exception {
         super.tearDown();
-        if (ParseUser.getCurrentUser() != null)
-            ParseUser.logOut();
+
     }
 
     // Pruebsas con metodos
