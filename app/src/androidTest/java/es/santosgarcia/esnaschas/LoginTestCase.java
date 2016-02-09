@@ -54,8 +54,8 @@ public class LoginTestCase extends ActivityInstrumentationTestCase2<LoginActivit
         getInstrumentation().sendStringSync(PASSWORD);
 
         TouchUtils.clickView(this, loginBtn);
-
         String usuario = ParseUser.getCurrentUser().getUsername();
+        
 
         assertTrue("Add result should be...", usuario.equals(USERNAME));
 
