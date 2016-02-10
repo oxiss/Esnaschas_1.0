@@ -23,10 +23,10 @@
     <string name="cancel">Cancel</string>
     <string name="error_external_storage">Error external estorage</string>
     <string-array name="camera_choices">
-        <item>Haz una foto</item>
-        <item>Haz un video</item>
-        <item>Elije una foto</item>
-        <item>Elije un video</item>
+        <item>Take Picture</item>
+        <item>Take Video</item>
+        <item>Choose Photo</item>
+        <item>Choose Video</item>
     </string-array>
 
 </resources>
