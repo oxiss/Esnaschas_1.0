@@ -18,6 +18,6 @@
         android:id="@+id/action_camera"
         android:icon="@drawable/ic_camera24dp"
         android:title="@string/camera"
-        app:showAsAction="ifRoom|withText"/>
+        app:showAsAction="always"/>
 
 </menu>

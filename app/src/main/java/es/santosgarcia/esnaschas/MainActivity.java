@@ -1,7 +1,11 @@
 package es.santosgarcia.esnaschas;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -10,12 +14,14 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.ParseObject;
 import com.parse.ParseUser;
@@ -32,6 +38,12 @@ public class MainActivity extends AppCompatActivity {
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
+    public static final String TAG = MainActivity.class.getSimpleName();
+    protected Uri mMediaUri; // permite identificar ficheros
+    public static final int TAKE_PHOTO_REQUEST = 0;
+    public static final int TAKE_VIDEO_REQUEST = 1;
+    public static final int PICK_PHOTO_REQUEST = 2;
+    public static final int PICK_VIDEO_REQUEST = 3;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -104,21 +116,79 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_logout) {
-            ParseUser.logOut();
-            Intent intent = new Intent(MainActivity.this,LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            return true;
-        }
-        if (id == R.id.action_edit_friends){
-            Intent intent = new Intent(MainActivity.this,EditFriendsActivity.class);
-            startActivity(intent);
-        }
 
+        switch(id) {
+            case  R.id.action_logout:
+                ParseUser.logOut();
+                Intent intentLogin = new Intent(MainActivity.this,LoginActivity.class);
+                intentLogin.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intentLogin);
+                break;
+
+            case R.id.action_edit_friends:
+                Intent intentFriends = new Intent(MainActivity.this,EditFriendsActivity.class);
+                startActivity(intentFriends);
+                break;
+
+            case R.id.action_camera:
+                dialogCameraChoices();
+                break;
+
+        }
         return super.onOptionsItemSelected(item);
     }
+
+    private void dialogCameraChoices() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setItems(R.array.camera_choices, mDialogListener());
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private DialogInterface.OnClickListener mDialogListener() {
+
+        DialogInterface.OnClickListener dialogListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                switch (which) {
+                    case 0:
+                        Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        //
+                        mMediaUri = FileUtilities.getOutputMediaFileUri(FileUtilities.MEDIA_TYPE_IMAGE);
+                        // Si no existe identificador
+                        if (mMediaUri == null) {
+                            Toast.makeText(MainActivity.this, R.string.error_external_storage, Toast.LENGTH_LONG).show();
+                            Log.i(TAG, "Error en el almacenamiento externo");
+                        } else {
+                            // añadiremos informacion extra al intent
+                            takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, mMediaUri);
+                            startActivityForResult(takePhotoIntent, TAKE_PHOTO_REQUEST);
+                            Log.i(TAG, "Take Photo Option is selected");
+                        }
+                        break;
+
+                    case 1:
+                        Log.i(TAG, "Take Video Option is selected");
+                        break;
+
+                    case 2:
+                        Log.i(TAG, "Choice Photo Option is selected");
+                        break;
+
+                    case 3:
+                        Log.i(TAG, "Choice Video Option is selected");
+                        break;
+
+                }
+
+
+
+            }
+        };
+        return dialogListener;
+    }
+
 
     /**
      * A placeholder fragment containing a simple view.
