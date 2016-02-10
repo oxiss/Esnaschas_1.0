@@ -154,9 +154,9 @@ public class MainActivity extends AppCompatActivity {
                 switch (which) {
                     case 0:
                         Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        //
+
                         mMediaUri = FileUtilities.getOutputMediaFileUri(FileUtilities.MEDIA_TYPE_IMAGE);
-                        // Si no existe identificador
+                       // Si no existe identificador
                         if (mMediaUri == null) {
                             Toast.makeText(MainActivity.this, R.string.error_external_storage, Toast.LENGTH_LONG).show();
                             Log.i(TAG, "Error en el almacenamiento externo");
@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
                             takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, mMediaUri);
                             startActivityForResult(takePhotoIntent, TAKE_PHOTO_REQUEST);
                             Log.i(TAG, "Take Photo Option is selected");
-                        }
+                       }
                         break;
 
                     case 1:
