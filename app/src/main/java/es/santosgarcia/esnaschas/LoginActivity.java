@@ -146,7 +146,6 @@ public class LoginActivity extends AppCompatActivity {
                     Toast toast1 = Toast.makeText(getApplicationContext(),"Login Fail", Toast.LENGTH_SHORT);
                     toast1.show();
                     esperar(circularButton1);
-
                 }
                 hideProgressBar();
             }
