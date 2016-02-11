@@ -9,22 +9,22 @@ import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.ParseObject;
 import com.parse.ParseUser;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
     public static final String TAG = MainActivity.class.getSimpleName();
     protected Uri mMediaUri; // permite identificar ficheros
+    static final int FILE_SIZE_LIMIT = 10485760;
     public static final int TAKE_PHOTO_REQUEST = 0;
     public static final int TAKE_VIDEO_REQUEST = 1;
     public static final int PICK_PHOTO_REQUEST = 2;
@@ -169,7 +170,20 @@ public class MainActivity extends AppCompatActivity {
                         break;
 
                     case 1:
-                        Log.i(TAG, "Take Video Option is selected");
+                        Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+                        mMediaUri = FileUtilities.getOutputMediaFileUri(FileUtilities.MEDIA_TYPE_VIDEO);
+
+                        if (mMediaUri == null) {
+                            Toast.makeText(MainActivity.this, R.string.error_external_storage, Toast.LENGTH_LONG).show();
+                            Log.i(TAG, "Error en el almacenamiento externo");
+                        }
+                        else{
+                            takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, mMediaUri);
+                            takeVideoIntent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 10);
+                            takeVideoIntent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0);
+                            startActivityForResult(takeVideoIntent, TAKE_VIDEO_REQUEST); Log.i(TAG, "Take Video Option is selected");
+                        }
+
                         break;
 
                     case 2:
@@ -177,6 +191,9 @@ public class MainActivity extends AppCompatActivity {
                         break;
 
                     case 3:
+                        Intent chooseVideoIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                        chooseVideoIntent.setType("video/*");
+                        startActivityForResult(chooseVideoIntent,PICK_VIDEO_REQUEST);
                         Log.i(TAG, "Choice Video Option is selected");
                         break;
 
@@ -189,41 +206,49 @@ public class MainActivity extends AppCompatActivity {
         return dialogListener;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
+    if(data!=null) {
+        mMediaUri = data.getData();
+    }
+        else{
+        Log.d(TAG, "error with getData()");
+    }
 
-        public PlaceholderFragment() {
+        try {
+            InputStream miImput =getContentResolver().openInputStream(mMediaUri);
+            int fileSize= miImput.available();
+            if (mMediaUri!=null && fileSize<FILE_SIZE_LIMIT){
+                Toast.makeText(MainActivity.this, "todo OK", Toast.LENGTH_LONG).show();
+            }
+            else if (mMediaUri!=null && fileSize>FILE_SIZE_LIMIT){
+                Toast.makeText(MainActivity.this, "archivo muy grande", Toast.LENGTH_LONG).show();
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
 
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-            return rootView;
+        if (resultCode==RESULT_OK){
+            //añadimos imagen a la galeria
+            Intent mediaScantIntent;
+            mediaScantIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+            mediaScantIntent.setData(mMediaUri);
+            sendBroadcast(mediaScantIntent);
+
+        }
+        else{
+            Log.d(TAG, "failed taking photo");
+
         }
     }
+
+
 
 
 }
