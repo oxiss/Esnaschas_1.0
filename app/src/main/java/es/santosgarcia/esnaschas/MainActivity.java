@@ -237,6 +237,15 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (resultCode==RESULT_OK){
+            String fileType ="";
+
+            if (requestCode == PICK_PHOTO_REQUEST || requestCode == TAKE_PHOTO_REQUEST){
+                fileType="imagen";
+            }
+            else{
+                fileType="video";
+            }
+
             //añadimos imagen a la galeria
             Intent mediaScantIntent;
             mediaScantIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
@@ -246,6 +255,7 @@ public class MainActivity extends AppCompatActivity {
             Intent recipientes;
             recipientes = new Intent(MainActivity.this, Recipients_activity.class);
             recipientes.setData(mMediaUri);
+            recipientes.putExtra(ParseConstants.KEY_FILE_TYPE, fileType);
             startActivity(recipientes);
 
         }
