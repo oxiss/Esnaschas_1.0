@@ -187,6 +187,9 @@ public class MainActivity extends AppCompatActivity {
                         break;
 
                     case 2:
+                        Intent choosePhotoIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                        choosePhotoIntent.setType("image/*");
+                        startActivityForResult(choosePhotoIntent,PICK_PHOTO_REQUEST);
                         Log.i(TAG, "Choice Photo Option is selected");
                         break;
 
@@ -213,26 +216,25 @@ public class MainActivity extends AppCompatActivity {
     if(data!=null) {
         mMediaUri = data.getData();
     }
-        else{
+    else{
         Log.d(TAG, "error with getData()");
     }
+        if (mMediaUri!=null) {
+            try {
+                InputStream miImput = getContentResolver().openInputStream(mMediaUri);
+                int fileSize = miImput.available();
+                if (mMediaUri != null && fileSize < FILE_SIZE_LIMIT) {
+                    Toast.makeText(MainActivity.this, "todo OK", Toast.LENGTH_LONG).show();
+                } else if (mMediaUri != null && fileSize > FILE_SIZE_LIMIT) {
+                    Toast.makeText(MainActivity.this, "archivo muy grande", Toast.LENGTH_LONG).show();
+                }
 
-        try {
-            InputStream miImput =getContentResolver().openInputStream(mMediaUri);
-            int fileSize= miImput.available();
-            if (mMediaUri!=null && fileSize<FILE_SIZE_LIMIT){
-                Toast.makeText(MainActivity.this, "todo OK", Toast.LENGTH_LONG).show();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            else if (mMediaUri!=null && fileSize>FILE_SIZE_LIMIT){
-                Toast.makeText(MainActivity.this, "archivo muy grande", Toast.LENGTH_LONG).show();
-            }
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-
 
         if (resultCode==RESULT_OK){
             //añadimos imagen a la galeria
@@ -241,14 +243,16 @@ public class MainActivity extends AppCompatActivity {
             mediaScantIntent.setData(mMediaUri);
             sendBroadcast(mediaScantIntent);
 
+            Intent recipientes;
+            recipientes = new Intent(MainActivity.this, Recipients_activity.class);
+            recipientes.setData(mMediaUri);
+            startActivity(recipientes);
+
         }
         else{
             Log.d(TAG, "failed taking photo");
 
         }
     }
-
-
-
 
 }
