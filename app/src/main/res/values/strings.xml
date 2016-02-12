@@ -21,6 +21,8 @@
     <string name="title_activity_edit_friends">EditFriendsActivity</string>
     <string name="send">Send</string>
     <string name="cancel">Cancel</string>
+    <string name="action_send">Send</string>
+
     <string name="error_external_storage">Error external estorage</string>
     <string-array name="camera_choices">
         <item>Take Picture</item>
