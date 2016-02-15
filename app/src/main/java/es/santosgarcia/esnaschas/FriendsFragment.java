@@ -1,13 +1,12 @@
 package es.santosgarcia.esnaschas;
 
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.GridView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -20,10 +19,11 @@ import java.util.List;
 /**
  * Created by Santos on 28/01/2016.
  */
-public class FriendsFragment extends ListFragment {
+public class FriendsFragment extends android.support.v4.app.Fragment {
     protected List<ParseUser> mFriends;
     protected ParseRelation<ParseUser> mFriendsRelation;
     protected ParseUser mCurrentUser;
+    protected GridView mGridView;
     private ProgressBar prg;
 
 
@@ -32,6 +32,10 @@ public class FriendsFragment extends ListFragment {
         View rootView = inflater.inflate(R.layout.friendsfragment, container, false);
         prg = (ProgressBar)rootView.findViewById(R.id.progressFriends);
         prg.setVisibility(View.GONE);
+
+        mGridView = (GridView)rootView.findViewById(R.id.friendsGrid);
+        TextView emptyTextView = (TextView)rootView.findViewById(android.R.id.empty);
+        mGridView.setEmptyView(emptyTextView);
 
         return rootView;
     }
@@ -59,15 +63,16 @@ public class FriendsFragment extends ListFragment {
                         usernames[i] = user.getUsername();
                         i++;
                     }
-                    ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                            getListView().getContext(),
-                            android.R.layout.simple_list_item_1,
-                            usernames);
-                    setListAdapter(adapter);
-
+                    if (mGridView.getAdapter()==null) {
+                        UserAdapter adapter = new UserAdapter(getActivity(), mFriends);
+                        mGridView.setAdapter(adapter);
+                    }
+                    else{
+                        ((UserAdapter)mGridView.getAdapter()).refill(mFriends);
+                    }
                 } else {
-                    Toast toastFriends = Toast.makeText(getContext(), "EEEEEEERROR", Toast.LENGTH_SHORT);
-                    toastFriends.show();
+                    //Toast toastFriends = Toast.makeText(getActivityContext(), "ERROR", Toast.LENGTH_SHORT);
+                   // toastFriends.show();
 
                 }
 
