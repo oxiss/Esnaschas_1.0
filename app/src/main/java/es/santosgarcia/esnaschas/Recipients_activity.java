@@ -1,7 +1,10 @@
 package es.santosgarcia.esnaschas;
 
 import android.app.ListActivity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -13,25 +16,35 @@ import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Recipients_activity extends ListActivity {
+
 
     protected List<ParseUser> mFriends;
     protected ParseRelation<ParseUser> mFriendsRelation;
     protected ParseUser mCurrentUser;
     private ProgressBar prg;
     protected MenuItem mSendMenuItem;
+    protected Uri mMediaUri;
+    protected String mFileType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipients_activity);
         getActionBar().setDisplayHomeAsUpEnabled(true);
+        Intent intent = getIntent();
+        mMediaUri = intent.getData();
+        mFileType=intent.getStringExtra(ParseConstants.KEY_FILE_TYPE);
 
         prg = (ProgressBar)findViewById(R.id.progressBar3);
     }
@@ -99,10 +112,71 @@ public class Recipients_activity extends ListActivity {
 
         switch (id) {
             case R.id.action_send:
+                ParseObject message = createMessage();
+                if (message == null) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setMessage("error al seleccionar archivo")
+                            .setTitle("Error")
+                            .setPositiveButton(android.R.string.ok, null);
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+                else {
+                    send(message);
+                    finish();
+                }
                 return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void send(ParseObject message) {
+        message.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    // success!
+                    Toast.makeText(Recipients_activity.this,"Mensaje enviado!!!", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(Recipients_activity.this,"Mensaje NO enviado", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+    private ParseObject createMessage(){
+        ParseObject message = new ParseObject(ParseConstants.CLASS_MESSAGES);
+        message.put(ParseConstants.KEY_SENDER_ID, ParseUser.getCurrentUser().getObjectId());
+        message.put(ParseConstants.KEY_SENDER_NAME, ParseUser.getCurrentUser().getUsername());
+        message.put(ParseConstants.KEY_RECIPIENTS_ID, getRecipientsIds());
+        message.put(ParseConstants.KEY_FILE_TYPE, mFileType);
+        byte[] miarraybytes = FileHelper.getByteArrayFromFile(this,mMediaUri);
+
+        if (miarraybytes==null){
+            return null;
+        }
+        else{
+            if (mFileType.equals(ParseConstants.TYPE_IMAGE)) {
+                miarraybytes = FileHelper.reduceImageForUpload(miarraybytes);
+            }
+
+            String fileName = FileHelper.getFileName(this, mMediaUri, mFileType);
+            ParseFile file = new ParseFile(fileName, miarraybytes);
+            message.put(ParseConstants.KEY_FILE, file);
+
+            return message;
+        }
+    }
+
+    private ArrayList<String> getRecipientsIds(){
+        ArrayList<String> recipientList = new ArrayList<String>();
+        for (int i =0; i < getListView().getCount();i++){
+            if (getListView().isItemChecked(i)){
+                recipientList.add(mFriends.get(i).getObjectId());
+            }
+        }
+        return  recipientList;
     }
 
     @Override
