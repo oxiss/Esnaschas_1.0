@@ -18,4 +18,7 @@ public class ParseConstants {
 
     public static final String TYPE_IMAGE="imagen";
     public static final String TYPE_VIDEO="video";
+
+    public static final String KEY_CREATED_AT="createdAt";
+    public static final int TASK_DELAY=10000;
 }
