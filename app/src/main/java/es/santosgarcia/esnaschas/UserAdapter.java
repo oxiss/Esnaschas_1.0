@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.parse.ParseUser;
@@ -33,7 +34,7 @@ import java.util.List;
             if (convertView == null) {
                 convertView = LayoutInflater.from(mContext).inflate(R.layout.user_item, null);
                 holder = new ViewHolder();
-                //holder.iconImageView = (ImageView)convertView.findViewById(R.id.messageIcon);
+                holder.userImageView = (ImageView)convertView.findViewById(R.id.userImageView);
                 holder.nameLabel = (TextView)convertView.findViewById(R.id.nameLabel);
                 convertView.setTag(holder);
             }
@@ -42,6 +43,14 @@ import java.util.List;
             }
 
             ParseUser user = mUsers.get(position);
+            String email = user.getEmail().toLowerCase();
+
+            if (email.equals("")) {
+                holder.userImageView.setImageResource(R.drawable.avatar_empty);
+            }
+            else {
+                String hash = MD5Util.md5Hex(email);
+            }
 
             /*if (user.getString(ParseConstants.KEY_FILE_TYPE).equals(ParseConstants.TYPE_IMAGE)) {
                 holder.iconImageView.setImageResource(R.drawable.ic_action_picture);
@@ -55,7 +64,8 @@ import java.util.List;
         }
 
         private static class ViewHolder {
-           // ImageView iconImageView;
+            ImageView userImageView;
+            
             TextView nameLabel;
         }
 
