@@ -41,7 +41,7 @@ public class Recipients_activity extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipients_activity);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        //getActionBar().setDisplayHomeAsUpEnabled(true);
         Intent intent = getIntent();
         mMediaUri = intent.getData();
         mFileType=intent.getStringExtra(ParseConstants.KEY_FILE_TYPE);
