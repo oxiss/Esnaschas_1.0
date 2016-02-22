@@ -52,12 +52,25 @@ public class InboxFragment extends ListFragment{
         adapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_list_item_1, messages);
         setListAdapter(adapter);
 
-        ParseQuery<ParseObject>query=ParseQuery.getQuery(ParseConstants.CLASS_MESSAGES);
+       retrieveMessages();
+
+
+
+    }
+
+    private void retrieveMessages() {
+        ParseQuery<ParseObject> query=ParseQuery.getQuery(ParseConstants.CLASS_MESSAGES);
         query.whereEqualTo(ParseConstants.KEY_RECIPIENTS_ID, ParseUser.getCurrentUser().getObjectId());
         query.addDescendingOrder(ParseConstants.KEY_CREATED_AT);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
+              //  getActivity().setProgressBarIndeterminateVisibility(false);
+
+                if (mSwipeRefreshLayout.isRefreshing()){
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
+
                 if (e == null) {
                     mMessages = parseObjects;
 
@@ -65,15 +78,17 @@ public class InboxFragment extends ListFragment{
                         adapter.add(message.getString(ParseConstants.KEY_SENDER_NAME));
                     }
 
+                    MessageAdapter adapter = new MessageAdapter(
+                            getListView().getContext(),
+                            mMessages);
+                    setListAdapter(adapter);
+
                 } else {
                     Toast toastFriends = Toast.makeText(getActivity(), "ERROR", Toast.LENGTH_SHORT);
                     toastFriends.show();
                 }
             }
         });
-
-
-
     }
 
     @Override
@@ -114,8 +129,7 @@ public class InboxFragment extends ListFragment{
     protected SwipeRefreshLayout.OnRefreshListener mOnRefreshListener = new SwipeRefreshLayout.OnRefreshListener(){
         @Override
     public  void onRefresh(){
-        Toast.makeText(getActivity(), "We're refreshing", Toast.LENGTH_SHORT).show();
-        }
+            retrieveMessages();        }
     };
 
 
