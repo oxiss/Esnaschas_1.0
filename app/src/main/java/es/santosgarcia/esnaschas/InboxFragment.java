@@ -5,12 +5,12 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
@@ -28,23 +28,26 @@ import java.util.List;
  */
 public class InboxFragment extends ListFragment{
 
-    ProgressBar spinner;
+
     protected List<ParseObject> mMessages;
     private ArrayList<String>messages;
     private ArrayAdapter adapter;
+    protected SwipeRefreshLayout mSwipeRefreshLayout;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.inboxfragment, container, false);
-        spinner = (ProgressBar)rootView.findViewById(R.id.progressBar);
-        spinner.setVisibility(View.GONE);
 
-        return rootView;
+
+        mSwipeRefreshLayout =(SwipeRefreshLayout)rootView.findViewById(R.id.swipeRefreshLayout);
+        mSwipeRefreshLayout.setOnRefreshListener(mOnRefreshListener);
+
+
+    return rootView;
     }
-
-    @Override
     public void onResume() {
 
         super.onResume();
+
         messages = new ArrayList<>();
         adapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_list_item_1, messages);
         setListAdapter(adapter);
@@ -61,7 +64,7 @@ public class InboxFragment extends ListFragment{
                     for (ParseObject message : mMessages) {
                         adapter.add(message.getString(ParseConstants.KEY_SENDER_NAME));
                     }
-                    spinner.setVisibility(View.INVISIBLE);
+
                 } else {
                     Toast toastFriends = Toast.makeText(getActivity(), "ERROR", Toast.LENGTH_SHORT);
                     toastFriends.show();
@@ -107,6 +110,13 @@ public class InboxFragment extends ListFragment{
         }
 
     }
+
+    protected SwipeRefreshLayout.OnRefreshListener mOnRefreshListener = new SwipeRefreshLayout.OnRefreshListener(){
+        @Override
+    public  void onRefresh(){
+        Toast.makeText(getActivity(), "We're refreshing", Toast.LENGTH_SHORT).show();
+        }
+    };
 
 
 }

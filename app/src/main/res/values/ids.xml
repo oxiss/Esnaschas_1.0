@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="swipeRefresLayout" type="id">Swipe_Refresh_Layout</item>
+</resources>
