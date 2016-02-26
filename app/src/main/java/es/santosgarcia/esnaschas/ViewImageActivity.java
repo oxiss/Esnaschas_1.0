@@ -22,7 +22,8 @@ public class ViewImageActivity extends AppCompatActivity {
         mibarra.setVisibility(View.VISIBLE);
         ImageView miImagen = (ImageView)findViewById(R.id.visorimagen);
         Uri imageUri = getIntent().getData();
-        Picasso.with(this).load(imageUri.toString()).into(miImagen);
+        Picasso.with(this).load(imageUri.toString()).resize(400,600).centerCrop().into(miImagen);
+
         mibarra.setVisibility(View.INVISIBLE);
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
