@@ -51,7 +51,7 @@ import java.util.List;
             }
             else {
                 String hash = MD5Util.md5Hex(email);
-                String gravatarURL ="http://www.gravatar.com/avatar/HASH" + hash +
+                String gravatarURL ="http://www.gravatar.com/avatar/" + hash +
                         "?s=204&d=404";
                 Picasso.with(mContext)
                         .load(gravatarURL)
