@@ -64,7 +64,7 @@ public class EditFriendsActivity extends ListActivity {
                     }
                     addFriendCheckmarks();
                 } else {
-                    Toast toast1 = Toast.makeText(getApplicationContext(), "EEEEEEERROR", Toast.LENGTH_SHORT);
+                    Toast toast1 = Toast.makeText(getApplicationContext(), "Ha ocurrido un error", Toast.LENGTH_SHORT);
                     toast1.show();
                 }
             }
@@ -83,15 +83,13 @@ public class EditFriendsActivity extends ListActivity {
                 if(e==null){
                     //success
                     for(ParseUser user:parseUsers){
-                        Toast toast1 = Toast.makeText(getApplicationContext(), "sin errores", Toast.LENGTH_SHORT);
-                        toast1.show();
                         if (objectIds.contains(user.getObjectId()))
                             getListView().setItemChecked(objectIds.indexOf(user.getObjectId()),true);
                     }
                     mibarra.setVisibility(View.INVISIBLE);
                 }
                 else{
-                    Toast toast1 = Toast.makeText(getApplicationContext(), "error en addFriendCheckmarks", Toast.LENGTH_SHORT);
+                    Toast toast1 = Toast.makeText(getApplicationContext(), "Ha ocurrido un error", Toast.LENGTH_SHORT);
                     toast1.show();
                 }
             }
@@ -102,8 +100,6 @@ public class EditFriendsActivity extends ListActivity {
     @Override
     protected void onListItemClick(ListView l,View v, int position, long id){
         super.onListItemClick(l, v, position, id);
-        Toast toast1 = Toast.makeText(getApplicationContext(), "Funcioooooonoaaaa", Toast.LENGTH_SHORT);
-        toast1.show();
         mFriendsRelation.add(mUsers.get(position));
         if (getListView().isItemChecked(position)){
 
