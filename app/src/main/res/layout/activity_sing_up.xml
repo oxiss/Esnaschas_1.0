@@ -43,14 +43,15 @@
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="fill_parent"
+        android:layout_width="317dp"
         android:layout_height="wrap_content"
-        android:layout_margin="30dp">
+        android:layout_margin="30dp"
+        android:weightSum="1">
 
         <com.dd.CircularProgressButton
             android:id="@+id/Btnsend"
-            android:layout_width="196dp"
-            android:layout_height="64dp"
+            android:layout_width="wrap_content"
+            android:layout_height="79dp"
             android:layout_marginTop="16dp"
             android:textSize="18sp"
             android:textColor="#ffffff"
@@ -59,15 +60,15 @@
             app:cpb_textError="@string/Error"
             app:cpb_textIdle="@string/send"
             app:cpb_cornerRadius="48dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
             android:layout_marginRight="20dp"
-            app:cpb_selectorIdle="@drawable/idle_state_selector"/>
+            app:cpb_selectorIdle="@drawable/idle_state_selector"
+            android:layout_weight="0.15"
+            android:layout_marginLeft="60dp" />
 
         <com.dd.CircularProgressButton
             android:id="@+id/Btncancel"
-            android:layout_width="196dp"
-            android:layout_height="64dp"
+            android:layout_width="wrap_content"
+            android:layout_height="79dp"
             android:layout_marginTop="16dp"
             android:textSize="18sp"
             android:textColor="#ffffff"
@@ -76,10 +77,9 @@
             app:cpb_textError="@string/Error"
             app:cpb_textIdle="@string/cancel"
             app:cpb_cornerRadius="48dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
             android:layout_marginLeft="20dp"
-            app:cpb_selectorIdle="@drawable/idle_state_selector"/>
+            app:cpb_selectorIdle="@drawable/idle_state_selector"
+            android:layout_weight="0.15" />
 
 
         <!--<Button-->
