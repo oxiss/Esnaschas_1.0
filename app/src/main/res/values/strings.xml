@@ -23,6 +23,7 @@
     <string name="cancel">Cancel</string>
     <string name="action_send">Send</string>
     <string name="content_desc_user_avatar">User avatar</string>
+    <string name="content_desc_message_icon">Message icon</string>
 
 
 
